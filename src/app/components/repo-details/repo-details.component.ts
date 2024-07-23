@@ -4,6 +4,7 @@ import { GithubService } from '../../services/github.service';
 import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterModule } from '@angular/router';
+import { marked } from 'marked';
 
 @Component({
   selector: 'app-repo-details',
@@ -14,7 +15,7 @@ import { RouterModule } from '@angular/router';
 })
 export class RepoDetailsComponent implements OnInit {
   repo: any | null = null;
-  readmeContent: string | null = null;
+  readmeContent: Promise<string> | string | null = null;
   fileStructure: any[] = [];
   isLoading = false;
   error: string | null = null;
@@ -64,7 +65,7 @@ export class RepoDetailsComponent implements OnInit {
   loadReadmeContent(owner: string, repo: string): void {
     this.githubService.getReadmeContent(owner, repo).subscribe({
       next: (content) => {
-        this.readmeContent = content;
+        this.readmeContent = marked(content);
       },
       error: (err) => {
         this.error = 'Ошибка при загрузке README.md';
