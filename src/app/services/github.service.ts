@@ -57,6 +57,7 @@ export class GithubService {
       `${this.baseUrl}/repos/${owner}/${repo}/readme`,
       {
         headers: { Accept: 'application/vnd.github.v3.raw' },
+        responseType: 'text' as 'json',
       }
     );
   }
