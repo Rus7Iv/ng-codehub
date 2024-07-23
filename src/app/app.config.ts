@@ -1,9 +1,15 @@
-import { ApplicationConfig } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
-
-import { routes } from './app.routes';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { appRoutes } from './app.routes';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideAnimationsAsync()]
+  providers: [
+    provideRouter(appRoutes),
+    provideHttpClient(),
+    provideAnimations(),
+    importProvidersFrom(ReactiveFormsModule, FormsModule),
+  ],
 };

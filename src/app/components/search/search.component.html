@@ -1,0 +1,54 @@
+<div class="search-container" [@searchAnimation]>
+  <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <input
+        type="text"
+        formControlName="query"
+        placeholder="Поиск репозиториев"
+        class="search-input"
+      />
+      <select formControlName="language" class="language-select">
+        <option value="">Все языки</option>
+        <option value="JavaScript">JavaScript</option>
+        <option value="TypeScript">TypeScript</option>
+        <option value="Python">Python</option>
+      </select>
+      <button type="submit" class="search-button">Поиск</button>
+    </div>
+  </form>
+</div>
+
+<div class="spinner-container" *ngIf="isLoading">
+  <mat-spinner></mat-spinner>
+</div>
+
+<div class="repo-list" *ngIf="repos.length && !isLoading">
+  <ul>
+    <li
+      *ngFor="let repo of repos"
+      [class.selected]="selectedRepoIds.has(repo.id)"
+      (click)="openRepo(repo)"
+    >
+      <h3>{{ repo.name }}</h3>
+      <p>{{ repo.description }}</p>
+      <span>Звёзды: {{ repo.stargazers_count }}</span>
+      <span>Язык: {{ repo.language }}</span>
+    </li>
+  </ul>
+</div>
+
+<div class="pagination" *ngIf="totalPages > 1">
+  <button
+    [disabled]="currentPage === 1"
+    (click)="onPageChange(currentPage - 1)"
+  >
+    Назад
+  </button>
+  <span>Страница {{ currentPage }} из {{ totalPages }}</span>
+  <button
+    [disabled]="currentPage === totalPages"
+    (click)="onPageChange(currentPage + 1)"
+  >
+    Вперед
+  </button>
+</div>
