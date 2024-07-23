@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class GithubService {
-  private baseUrl = 'https://api.github.com/search/repositories';
+  private baseUrl = 'https://api.github.com';
 
   constructor(private http: HttpClient) {}
 
@@ -22,21 +22,23 @@ export class GithubService {
       .set('page', page)
       .set('per_page', perPage.toString());
 
-    return this.http.get<any>(this.baseUrl, { params }).pipe(
-      map((response) => {
-        return {
-          items: response.items.map((item: any) => ({
-            id: item.id,
-            name: item.name,
-            html_url: item.html_url,
-            description: item.description,
-            stargazers_count: item.stargazers_count,
-            language: item.language,
-          })),
-          total_count: response.total_count,
-        };
-      })
-    );
+    return this.http
+      .get<any>(`${this.baseUrl}/search/repositories`, { params })
+      .pipe(
+        map((response) => {
+          return {
+            items: response.items.map((item: any) => ({
+              id: item.id,
+              name: item.name,
+              html_url: item.html_url,
+              description: item.description,
+              stargazers_count: item.stargazers_count,
+              language: item.language,
+            })),
+            total_count: response.total_count,
+          };
+        })
+      );
   }
 
   getRepoDetails(repoId: string): Observable<any> {
