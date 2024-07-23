@@ -30,6 +30,7 @@ export class GithubService {
             items: response.items.map((item: any) => ({
               id: item.id,
               name: item.name,
+              owner: item.owner,
               html_url: item.html_url,
               description: item.description,
               stargazers_count: item.stargazers_count,
@@ -41,17 +42,22 @@ export class GithubService {
       );
   }
 
-  getRepoDetails(repoId: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/${repoId}`);
+  getRepoDetails(owner: string, repo: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/repos/${owner}/${repo}`);
   }
 
-  getRepoFileStructure(repoId: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/${repoId}/contents`);
+  getRepoFileStructure(owner: string, repo: string): Observable<any[]> {
+    return this.http.get<any[]>(
+      `${this.baseUrl}/repos/${owner}/${repo}/contents`
+    );
   }
 
-  getReadmeContent(repoId: string): Observable<string> {
-    return this.http.get<string>(`${this.baseUrl}/${repoId}/readme`, {
-      headers: { Accept: 'application/vnd.github.v3.raw' },
-    });
+  getReadmeContent(owner: string, repo: string): Observable<string> {
+    return this.http.get<string>(
+      `${this.baseUrl}/repos/${owner}/${repo}/readme`,
+      {
+        headers: { Accept: 'application/vnd.github.v3.raw' },
+      }
+    );
   }
 }

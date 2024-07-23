@@ -26,18 +26,19 @@ export class RepoDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      const repoId = params.get('id');
-      if (repoId) {
-        this.loadRepoDetails(repoId);
-        this.loadFileStructure(repoId);
-        this.loadReadmeContent(repoId);
+      const owner = params.get('owner');
+      const repo = params.get('repo');
+      if (owner && repo) {
+        this.loadRepoDetails(owner, repo);
+        this.loadFileStructure(owner, repo);
+        this.loadReadmeContent(owner, repo);
       }
     });
   }
 
-  loadRepoDetails(repoId: string): void {
+  loadRepoDetails(owner: string, repo: string): void {
     this.isLoading = true;
-    this.githubService.getRepoDetails(repoId).subscribe({
+    this.githubService.getRepoDetails(owner, repo).subscribe({
       next: (repo) => {
         this.repo = repo;
         this.isLoading = false;
@@ -49,8 +50,8 @@ export class RepoDetailsComponent implements OnInit {
     });
   }
 
-  loadFileStructure(repoId: string): void {
-    this.githubService.getRepoFileStructure(repoId).subscribe({
+  loadFileStructure(owner: string, repo: string): void {
+    this.githubService.getRepoFileStructure(owner, repo).subscribe({
       next: (files) => {
         this.fileStructure = files;
       },
@@ -60,8 +61,8 @@ export class RepoDetailsComponent implements OnInit {
     });
   }
 
-  loadReadmeContent(repoId: string): void {
-    this.githubService.getReadmeContent(repoId).subscribe({
+  loadReadmeContent(owner: string, repo: string): void {
+    this.githubService.getReadmeContent(owner, repo).subscribe({
       next: (content) => {
         this.readmeContent = content;
       },
