@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class GithubService {
-  private baseUrl = 'https://api.github.com/search/repositories';
+  private baseUrl = 'https://api.github.com';
 
   constructor(private http: HttpClient) {}
 
@@ -22,20 +22,43 @@ export class GithubService {
       .set('page', page)
       .set('per_page', perPage.toString());
 
-    return this.http.get<any>(this.baseUrl, { params }).pipe(
-      map((response) => {
-        return {
-          items: response.items.map((item: any) => ({
-            id: item.id,
-            name: item.name,
-            html_url: item.html_url,
-            description: item.description,
-            stargazers_count: item.stargazers_count,
-            language: item.language,
-          })),
-          total_count: response.total_count,
-        };
-      })
+    return this.http
+      .get<any>(`${this.baseUrl}/search/repositories`, { params })
+      .pipe(
+        map((response) => {
+          return {
+            items: response.items.map((item: any) => ({
+              id: item.id,
+              name: item.name,
+              owner: item.owner,
+              html_url: item.html_url,
+              description: item.description,
+              stargazers_count: item.stargazers_count,
+              language: item.language,
+            })),
+            total_count: response.total_count,
+          };
+        })
+      );
+  }
+
+  getRepoDetails(owner: string, repo: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/repos/${owner}/${repo}`);
+  }
+
+  getRepoFileStructure(owner: string, repo: string): Observable<any[]> {
+    return this.http.get<any[]>(
+      `${this.baseUrl}/repos/${owner}/${repo}/contents`
+    );
+  }
+
+  getReadmeContent(owner: string, repo: string): Observable<string> {
+    return this.http.get<string>(
+      `${this.baseUrl}/repos/${owner}/${repo}/readme`,
+      {
+        headers: { Accept: 'application/vnd.github.v3.raw' },
+        responseType: 'text' as 'json',
+      }
     );
   }
 }
