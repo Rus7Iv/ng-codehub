@@ -5,4 +5,8 @@ export interface Repo {
   description: string;
   stargazers_count: number;
   language: string;
+  owner: {
+    login: string;
+    avatar_url: string;
+  };
 }

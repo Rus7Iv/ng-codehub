@@ -5,6 +5,7 @@ import {
   ReactiveFormsModule,
   FormsModule,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { GithubService } from '../../services/github.service';
 import { Repo } from '../../models/repo.model';
 import { trigger, style, transition, animate } from '@angular/animations';
@@ -50,7 +51,11 @@ export class SearchComponent {
   perPage = 10;
   selectedRepoIds: Set<number> = new Set<number>();
 
-  constructor(private fb: FormBuilder, private githubService: GithubService) {
+  constructor(
+    private fb: FormBuilder,
+    private githubService: GithubService,
+    private router: Router
+  ) {
     this.searchForm = this.fb.group({
       query: [''],
       language: [''],
@@ -82,7 +87,7 @@ export class SearchComponent {
   }
 
   openRepo(repo: Repo): void {
-    window.open(repo.html_url, '_blank');
+    this.router.navigate(['/repo', repo.owner.login, repo.name]);
     this.selectedRepoIds.add(repo.id);
   }
 
