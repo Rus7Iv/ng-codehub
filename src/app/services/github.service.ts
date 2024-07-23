@@ -38,4 +38,18 @@ export class GithubService {
       })
     );
   }
+
+  getRepoDetails(repoId: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/${repoId}`);
+  }
+
+  getRepoFileStructure(repoId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/${repoId}/contents`);
+  }
+
+  getReadmeContent(repoId: string): Observable<string> {
+    return this.http.get<string>(`${this.baseUrl}/${repoId}/readme`, {
+      headers: { Accept: 'application/vnd.github.v3.raw' },
+    });
+  }
 }

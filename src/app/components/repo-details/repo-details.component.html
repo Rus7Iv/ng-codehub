@@ -1,0 +1,25 @@
+<div *ngIf="isLoading" class="spinner-container">
+  <!-- <mat-spinner></mat-spinner> -->
+  Loading
+</div>
+
+<div *ngIf="error" class="error">{{ error }}</div>
+
+<div *ngIf="repo" class="repo-details">
+  <h2>{{ repo?.name }}</h2>
+  <p><strong>Описание:</strong> {{ repo?.description }}</p>
+  <p><strong>Звезды:</strong> {{ repo?.stargazers_count }}</p>
+  <p><strong>Язык:</strong> {{ repo?.language }}</p>
+
+  <div class="file-structure">
+    <h3>Структура файлов:</h3>
+    <ul>
+      <li *ngFor="let file of fileStructure">{{ file.path }}</li>
+    </ul>
+  </div>
+
+  <div class="readme-content">
+    <h3>README.md:</h3>
+    <pre>{{ readmeContent }}</pre>
+  </div>
+</div>
