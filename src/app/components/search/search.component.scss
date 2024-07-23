@@ -1,0 +1,109 @@
+.search-container {
+  text-align: center;
+  margin-top: 100px;
+  transition: margin-top 0.5s ease-out;
+}
+
+form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-input {
+  width: 300px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: width 0.5s;
+}
+
+.language-select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.search-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
+
+.repo-list {
+  margin-top: 20px;
+  list-style: none;
+  padding: 0;
+}
+
+.repo-list ul {
+  padding: 0;
+  list-style: none;
+}
+
+.repo-list li {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.repo-list li.selected {
+  background-color: #f0f8ff;
+}
+
+.repo-list li:hover {
+  background-color: #f8f9fa;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.pagination button {
+  padding: 5px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
