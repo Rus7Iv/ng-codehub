@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { GithubService } from '../../services/github.service';
 import { Repo } from '../../models/repo.model';
 import { trigger, style, transition, animate } from '@angular/animations';
-import { NgFor, NgIf } from '@angular/common';
+import { NgFor, NgIf, NgClass } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
@@ -20,27 +20,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     FormsModule,
     NgFor,
     NgIf,
+    NgClass,
     MatProgressSpinnerModule,
   ],
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
-  animations: [
-    trigger('searchAnimation', [
-      transition(':enter', [
-        style({ transform: 'translateY(50%)', opacity: 0 }),
-        animate(
-          '500ms ease-out',
-          style({ transform: 'translateY(0)', opacity: 1 })
-        ),
-      ]),
-      transition(':leave', [
-        animate(
-          '500ms ease-in',
-          style({ transform: 'translateY(-50%)', opacity: 0 })
-        ),
-      ]),
-    ]),
-  ],
 })
 export class SearchComponent {
   searchForm: FormGroup;
@@ -50,6 +34,8 @@ export class SearchComponent {
   totalPages = 1;
   perPage = 10;
   selectedRepoIds: Set<number> = new Set<number>();
+
+  @HostBinding('class.scrolled') isScrolled = false;
 
   constructor(
     private fb: FormBuilder,
@@ -64,6 +50,7 @@ export class SearchComponent {
 
   onSubmit(): void {
     this.currentPage = 1;
+    this.isScrolled = true;
     this.searchRepos();
   }
 

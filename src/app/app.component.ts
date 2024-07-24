@@ -8,16 +8,15 @@ import { RepoDetailsComponent } from './components/repo-details/repo-details.com
   standalone: true,
   imports: [RouterOutlet, SearchComponent, RepoDetailsComponent],
   template: `
-    <div>
-      <h1>GitHub Repository Search</h1>
+    <div class="content">
       <router-outlet></router-outlet>
     </div>
   `,
   styles: [
     `
-      h1 {
-        text-align: center;
-        margin-top: 20px;
+      .content {
+        display: flex;
+        justify-content: center;
       }
     `,
   ],
