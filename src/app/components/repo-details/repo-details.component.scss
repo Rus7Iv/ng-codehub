@@ -25,3 +25,9 @@
   padding: 10px;
   border-radius: 4px;
 }
+::ng-deep .readme-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
