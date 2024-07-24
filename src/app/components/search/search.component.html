@@ -1,4 +1,4 @@
-<div class="search-container" [@searchAnimation]>
+<div class="search-container" [ngClass]="{'scrolled': isScrolled}">
   <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <input
