@@ -12,8 +12,12 @@
 
   <div class="file-structure">
     <h3>Структура файлов:</h3>
-    <ul>
-      <li *ngFor="let file of fileStructure">{{ file.path }}</li>
+    <ul style="list-style-type: none;">
+      <li *ngFor="let file of fileStructure">
+        <mat-icon *ngIf="file.type === 'file'">insert_drive_file</mat-icon>
+        <mat-icon *ngIf="file.type === 'dir'">folder</mat-icon>
+        {{ file.path }}
+      </li>
     </ul>
   </div>
 

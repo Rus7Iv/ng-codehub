@@ -3,13 +3,19 @@ import { ActivatedRoute } from '@angular/router';
 import { GithubService } from '../../services/github.service';
 import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { marked } from 'marked';
 
 @Component({
   selector: 'app-repo-details',
   standalone: true,
-  imports: [CommonModule, MatProgressSpinnerModule, RouterModule],
+  imports: [
+    CommonModule,
+    MatProgressSpinnerModule,
+    RouterModule,
+    MatIconModule,
+  ],
   templateUrl: './repo-details.component.html',
   styleUrls: ['./repo-details.component.scss'],
 })
