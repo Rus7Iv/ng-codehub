@@ -56,9 +56,15 @@ export class GithubService {
     );
   }
 
-  getReadmeContent(owner: string, repo: string): Observable<string> {
+  getReadmeContent(
+    owner: string,
+    repo: string,
+    path?: string
+  ): Observable<string> {
     return this.http.get<string>(
-      `${this.baseUrl}/repos/${owner}/${repo}/readme`,
+      `${this.baseUrl}/repos/${owner}/${repo}/contents/${
+        path ? path + '/README.md' : 'README.md'
+      }`,
       {
         headers: { Accept: 'application/vnd.github.v3.raw' },
         responseType: 'text' as 'json',

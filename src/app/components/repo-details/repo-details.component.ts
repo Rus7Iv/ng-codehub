@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
+import { catchError, Observable, tap } from 'rxjs';
 import { marked } from 'marked';
 
 @Component({
@@ -38,8 +39,15 @@ export class RepoDetailsComponent implements OnInit {
       const path = params.get('path') || undefined;
       if (owner && repo) {
         this.loadRepoDetails(owner, repo);
-        this.loadFileStructure(owner, repo, path);
-        this.loadReadmeContent(owner, repo);
+        this.loadFileStructure(owner, repo, path).subscribe((files) => {
+          if (
+            files.some((file: any) => file.name.toLowerCase() === 'readme.md')
+          ) {
+            this.loadReadmeContent(owner, repo, path);
+          } else {
+            this.readmeContent = null;
+          }
+        });
       }
     });
   }
@@ -58,24 +66,30 @@ export class RepoDetailsComponent implements OnInit {
     });
   }
 
-  loadFileStructure(owner: string, repo: string, path?: string): void {
-    this.githubService.getRepoFileStructure(owner, repo, path).subscribe({
-      next: (files) => {
+  loadFileStructure(
+    owner: string,
+    repo: string,
+    path?: string
+  ): Observable<any[]> {
+    return this.githubService.getRepoFileStructure(owner, repo, path).pipe(
+      tap((files: any[]) => {
         this.fileStructure = files;
-      },
-      error: (err) => {
+      }),
+      catchError((err) => {
         this.error = 'Ошибка при загрузке структуры файлов';
-      },
-    });
+        throw err;
+      })
+    );
   }
 
-  loadReadmeContent(owner: string, repo: string): void {
-    this.githubService.getReadmeContent(owner, repo).subscribe({
+  loadReadmeContent(owner: string, repo: string, path?: string): void {
+    this.githubService.getReadmeContent(owner, repo, path).subscribe({
       next: (content) => {
         this.readmeContent = marked(content);
       },
       error: (err) => {
         this.error = 'Ошибка при загрузке README.md';
+        this.readmeContent = null;
       },
     });
   }
