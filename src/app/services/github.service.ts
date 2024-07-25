@@ -46,9 +46,13 @@ export class GithubService {
     return this.http.get<any>(`${this.baseUrl}/repos/${owner}/${repo}`);
   }
 
-  getRepoFileStructure(owner: string, repo: string): Observable<any[]> {
+  getRepoFileStructure(
+    owner: string,
+    repo: string,
+    path?: string
+  ): Observable<any[]> {
     return this.http.get<any[]>(
-      `${this.baseUrl}/repos/${owner}/${repo}/contents`
+      `${this.baseUrl}/repos/${owner}/${repo}/contents/${path ? path : ''}`
     );
   }
 

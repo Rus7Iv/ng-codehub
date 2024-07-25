@@ -16,7 +16,7 @@
       <li *ngFor="let file of fileStructure">
         <mat-icon *ngIf="file.type === 'file'">insert_drive_file</mat-icon>
         <mat-icon *ngIf="file.type === 'dir'">folder</mat-icon>
-        {{ file.path }}
+        <a [routerLink]="['/repo', repo.owner.login, repo.name, file.path]">{{ file.path }}</a>
       </li>
     </ul>
   </div>

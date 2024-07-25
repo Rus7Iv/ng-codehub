@@ -5,4 +5,5 @@ import { RepoDetailsComponent } from './components/repo-details/repo-details.com
 export const appRoutes: Routes = [
   { path: '', component: SearchComponent },
   { path: 'repo/:owner/:repo', component: RepoDetailsComponent },
+  { path: 'repo/:owner/:repo/:path', component: RepoDetailsComponent },
 ];

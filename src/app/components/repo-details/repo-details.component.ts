@@ -35,9 +35,10 @@ export class RepoDetailsComponent implements OnInit {
     this.route.paramMap.subscribe((params) => {
       const owner = params.get('owner');
       const repo = params.get('repo');
+      const path = params.get('path') || undefined;
       if (owner && repo) {
         this.loadRepoDetails(owner, repo);
-        this.loadFileStructure(owner, repo);
+        this.loadFileStructure(owner, repo, path);
         this.loadReadmeContent(owner, repo);
       }
     });
@@ -57,8 +58,8 @@ export class RepoDetailsComponent implements OnInit {
     });
   }
 
-  loadFileStructure(owner: string, repo: string): void {
-    this.githubService.getRepoFileStructure(owner, repo).subscribe({
+  loadFileStructure(owner: string, repo: string, path?: string): void {
+    this.githubService.getRepoFileStructure(owner, repo, path).subscribe({
       next: (files) => {
         this.fileStructure = files;
       },
